@@ -1,0 +1,4 @@
+const SAVE_USER_INFO = 'SAVE_USER_INFO';
+const LOGOUT = 'LOGOUT';
+
+export {SAVE_USER_INFO, LOGOUT};
