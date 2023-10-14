@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import styles from './styles';
 import {SvgXml} from 'react-native-svg';
@@ -18,21 +19,24 @@ import {
   userIcon,
   emailIcon,
 } from '../../assets/images';
+import {register, sendOtp} from '../../apis/auth';
 
 export default function SignUp({navigation}) {
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'user',
   });
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const formValidation = () => {
-    if (formData.username === '') {
-      setError('username cannot be empty');
+    if (formData.name === '') {
+      setError('name cannot be empty');
       return false;
     } else if (formData.email === '') {
       setError('email cannot be empty');
@@ -49,15 +53,32 @@ export default function SignUp({navigation}) {
     } else if (formData.password !== formData.confirmPassword) {
       setError('passwords do not match');
       return false;
+    } else if (formData.password.length < 8) {
+      setError('password must be at least 8 characters long');
+      return false;
     } else {
       setError('');
       return true;
     }
   };
 
-  const handleSignUp = () => {
-    if (formValidation()) {
-      navigation.navigate('Verify Code');
+  const handleSignUp = async () => {
+    try {
+      setLoading(true);
+      if (formValidation()) {
+        await register({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        });
+        await sendOtp(formData.email);
+        navigation.navigate('Verify Code', {email: formData.email});
+      }
+    } catch (e) {
+      setError(e?.response?.data?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,19 +101,17 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={userIcon} />
               <TextInput
-                placeholder="username"
+                placeholder="Your Name"
                 style={styles.input}
-                value={formData.username}
-                onChangeText={text =>
-                  setFormData({...formData, username: text})
-                }
+                value={formData.name}
+                onChangeText={text => setFormData({...formData, name: text})}
               />
             </View>
             <View style={styles.hr} />
             <View style={styles.inputContainer}>
               <Image source={emailIcon} />
               <TextInput
-                placeholder="email"
+                placeholder="Your Email"
                 style={styles.input}
                 value={formData.email}
                 onChangeText={text => setFormData({...formData, email: text})}
@@ -102,7 +121,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={passIcon} />
               <TextInput
-                placeholder="password"
+                placeholder="Password"
                 style={styles.input}
                 secureTextEntry={!showPassword}
                 value={formData.password}
@@ -124,7 +143,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={passIcon} />
               <TextInput
-                placeholder="confirm password"
+                placeholder="Confirm Password"
                 style={styles.input}
                 secureTextEntry={!showConfirmPassword}
                 value={formData.confirmPassword}
@@ -147,7 +166,11 @@ export default function SignUp({navigation}) {
           <TouchableOpacity
             style={[styles.button, styles.signInButton]}
             onPress={handleSignUp}>
-            <Text style={styles.buttonText}>SIGN UP</Text>
+            {loading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.buttonText}>SIGN UP</Text>
+            )}
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.googleButton]}

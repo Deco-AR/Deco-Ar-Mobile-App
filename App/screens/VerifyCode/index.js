@@ -1,11 +1,20 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from 'react-native';
 import styles from './styles';
 import {SvgXml} from 'react-native-svg';
 import {verificationVector} from '../../assets/images';
+import {sendOtp, verifyCode} from '../../apis/auth';
 
-export default function VerifyCode({navigation}) {
+export default function VerifyCode({navigation, route}) {
+  const params = route.params;
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const formValidation = () => {
@@ -18,9 +27,29 @@ export default function VerifyCode({navigation}) {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     if (formValidation()) {
-      navigation.navigate('Successfull');
+      try {
+        setLoading(true);
+        await verifyCode(params.email, code);
+        navigation.navigate('Successfull');
+      } catch (e) {
+        setError(e.response.data.message || 'Something went wrong');
+      } finally {
+        setCode('');
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleResend = async () => {
+    try {
+      setLoading(true);
+      await sendOtp(params.email);
+    } catch (e) {
+      setError(e.response.data.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,18 +78,23 @@ export default function VerifyCode({navigation}) {
         <Text style={styles.error}>{error}</Text>
         <TouchableOpacity
           style={[styles.button, styles.signInButton]}
+          disabled={loading}
           onPress={handleVerify}>
-          <Text style={styles.buttonText}>VERIFY</Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            <Text style={styles.buttonText}>VERIFY</Text>
+          )}
         </TouchableOpacity>
         <View style={styles.taglineContainer}>
-          <Text style={styles.tagline1}>Don’t Have An Account?</Text>
-          <TouchableOpacity onPress={() => {}}>
+          <Text style={styles.tagline1}>Didn't get the code?</Text>
+          <TouchableOpacity onPress={handleResend}>
             <Text style={styles.tagline2}>Resend Code</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Sign Up')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('Sign Up')}>
           <Text style={styles.tagline2}>Go Back</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

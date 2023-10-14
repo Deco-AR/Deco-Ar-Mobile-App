@@ -6,7 +6,7 @@ import styles from './styles';
 
 export default function Successfull({navigation}) {
   const handleVerify = () => {
-    navigation.navigate('Home');
+    navigation.navigate('Sign In');
   };
 
   return (
@@ -19,16 +19,16 @@ export default function Successfull({navigation}) {
         <SvgXml xml={successIcon} width="100" height="100" />
         <Text style={styles.containerHeading}>SUCCESSFULLY</Text>
         <View style={styles.taglineContainer}>
-          <Text style={styles.tagline1}>Your account have been Created.</Text>
+          <Text style={styles.tagline1}>Now you can login</Text>
         </View>
         <TouchableOpacity
           style={[styles.button, styles.signInButton]}
           onPress={handleVerify}>
-          <Text style={styles.buttonText}>SETUP PROFILE</Text>
+          <Text style={styles.buttonText}>Done</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Text style={styles.tagline2}>skip</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

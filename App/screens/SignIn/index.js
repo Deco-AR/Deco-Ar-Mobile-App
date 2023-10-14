@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import styles from './styles';
 import {SvgXml} from 'react-native-svg';
 import {
@@ -10,15 +17,21 @@ import {
   shoppingCartVector,
   userIcon,
 } from '../../assets/images';
+import {login} from '../../apis/auth';
+import localStorage from '../../utils/localStorage';
 
 export default function SignIn({navigation}) {
-  const [formData, setFormData] = useState({username: '', password: ''});
+  const [formData, setFormData] = useState({email: '', password: ''});
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const formValidation = () => {
-    if (formData.username === '') {
-      setError('username cannot be empty');
+    if (formData.email === '') {
+      setError('email cannot be empty');
+      return false;
+    } else if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      setError('email is not valid');
       return false;
     } else if (formData.password === '') {
       setError('password cannot be empty');
@@ -29,9 +42,18 @@ export default function SignIn({navigation}) {
     }
   };
 
-  const handleLogin = () => {
-    if (formValidation()) {
-      navigation.navigate('Home');
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+      if (formValidation()) {
+        let res = await login(formData.email, formData.password);
+        localStorage.set('token', res.token);
+        navigation.navigate('Home');
+      }
+    } catch (e) {
+      setError(e?.response?.data?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,10 +75,10 @@ export default function SignIn({navigation}) {
           <View style={styles.inputContainer}>
             <Image source={userIcon} />
             <TextInput
-              placeholder="username"
+              placeholder="email"
               style={styles.input}
-              value={formData.username}
-              onChangeText={text => setFormData({...formData, username: text})}
+              value={formData.email}
+              onChangeText={text => setFormData({...formData, email: text})}
             />
           </View>
           <View style={styles.hr} />
@@ -88,7 +110,11 @@ export default function SignIn({navigation}) {
         <TouchableOpacity
           style={[styles.button, styles.signInButton]}
           onPress={handleLogin}>
-          <Text style={styles.buttonText}>SIGN IN</Text>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.buttonText}>SIGN IN</Text>
+          )}
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.googleButton]}
