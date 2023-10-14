@@ -1,8 +1,8 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 import {Provider} from 'react-redux';
-import Routes from './src/routes/routes';
-import store from './src/store';
+import Routes from './App/routes/routes';
+import store from './App/store';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
