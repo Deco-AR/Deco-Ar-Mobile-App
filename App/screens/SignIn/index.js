@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import styles from './styles';
-import {SvgXml} from 'react-native-svg';
+import { SvgXml } from 'react-native-svg';
 import {
   eyeOff,
   eyeOn,
@@ -17,11 +17,11 @@ import {
   shoppingCartVector,
   userIcon,
 } from '../../assets/images';
-import {login} from '../../apis/auth';
+import { login } from '../../apis/auth';
 import localStorage from '../../utils/localStorage';
 
-export default function SignIn({navigation}) {
-  const [formData, setFormData] = useState({email: '', password: ''});
+export default function SignIn({ navigation }) {
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ export default function SignIn({navigation}) {
       if (formValidation()) {
         let res = await login(formData.email, formData.password);
         localStorage.set('token', res.token);
-        navigation.navigate('Home');
+        navigation.navigate('HomeScreens');
       }
     } catch (e) {
       setError(e?.response?.data?.message || 'Something went wrong');
@@ -56,6 +56,13 @@ export default function SignIn({navigation}) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    let token = localStorage.getString('token');
+    if (token) {
+      navigation.navigate('HomeScreens');
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -75,21 +82,23 @@ export default function SignIn({navigation}) {
           <View style={styles.inputContainer}>
             <Image source={userIcon} />
             <TextInput
+              placeholderTextColor={'#BDBDBD'}
               placeholder="email"
               style={styles.input}
               value={formData.email}
-              onChangeText={text => setFormData({...formData, email: text})}
+              onChangeText={text => setFormData({ ...formData, email: text })}
             />
           </View>
           <View style={styles.hr} />
           <View style={styles.inputContainer}>
             <Image source={passIcon} />
             <TextInput
+              placeholderTextColor={'#BDBDBD'}
               placeholder="password"
               style={styles.input}
               secureTextEntry={!showPassword}
               value={formData.password}
-              onChangeText={text => setFormData({...formData, password: text})}
+              onChangeText={text => setFormData({ ...formData, password: text })}
             />
             <TouchableOpacity
               onPress={() => setShowPassword(!showPassword)}

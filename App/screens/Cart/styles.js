@@ -12,8 +12,7 @@ export default StyleSheet.create({
     color: colors.dark,
   },
   topContainer: {
-    alignItems: 'center',
-    width: Dimensions.get('window').width,
+    width: Dimensions.get('window').width * 0.8,
     height: Dimensions.get('window').height * 0.4,
     padding: 18,
   },
@@ -26,12 +25,14 @@ export default StyleSheet.create({
     minHeight: Dimensions.get('window').height * 0.55,
     position: 'absolute',
     bottom: 0,
+    alignItems: 'center',
   },
   containerHeading: {
     fontSize: fonts.size.h2,
     fontFamily: fonts.type.medium,
     color: colors.dark,
     textAlign: 'center',
+    marginTop: 12,
   },
   taglineContainer: {
     flexDirection: 'row',
@@ -47,45 +48,7 @@ export default StyleSheet.create({
     fontSize: fonts.size.label,
     fontFamily: fonts.type.medium,
     color: colors.theme._300,
-  },
-  inputs: {
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    width: Dimensions.get('window').width * 0.8,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    marginTop: 26,
-  },
-  input: {
-    paddingLeft: 21,
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.regular,
-    width: '100%',
-    color: colors.dark,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    width: '100%',
-  },
-  eyeIcon: {
-    position: 'absolute',
-    right: 0,
-    paddingRight: 0,
-  },
-  hr: {
-    width: '100%',
-    height: 1,
-    backgroundColor: '#AAA',
-    marginVertical: 8,
-  },
-  forgotPassword: {
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.regular,
-    color: '#AAA',
-    alignSelf: 'flex-end',
-    marginTop: 10,
+    textAlign: 'center',
   },
   button: {
     height: 48,
@@ -93,17 +56,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: Dimensions.get('window').width * 0.8,
+    marginVertical: 12,
   },
   signInButton: {
     backgroundColor: colors.theme._300,
-    marginTop: 8,
-  },
-  googleButton: {
-    backgroundColor: colors.white,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
   },
   buttonText: {
     color: colors.dark,
@@ -114,7 +70,6 @@ export default StyleSheet.create({
     color: colors.error,
     fontFamily: fonts.type.regular,
     fontSize: fonts.size.label,
-    marginTop: 10,
     textAlign: 'center',
   },
 });

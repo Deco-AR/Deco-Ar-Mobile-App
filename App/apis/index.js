@@ -2,7 +2,7 @@ import axios from 'axios';
 import localStorage from '../utils/localStorage';
 
 const api = axios.create({
-  baseURL: 'https://f088-111-88-52-139.ngrok-free.app/api',
+  baseURL: 'http://35.154.49.30:5000/api',
 });
 
 api.interceptors.request.use(

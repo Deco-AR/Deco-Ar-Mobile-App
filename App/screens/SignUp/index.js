@@ -101,6 +101,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={userIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Your Name"
                 style={styles.input}
                 value={formData.name}
@@ -111,6 +112,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={emailIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Your Email"
                 style={styles.input}
                 value={formData.email}
@@ -121,6 +123,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={passIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Password"
                 style={styles.input}
                 secureTextEntry={!showPassword}
@@ -143,6 +146,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={passIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Confirm Password"
                 style={styles.input}
                 secureTextEntry={!showConfirmPassword}
