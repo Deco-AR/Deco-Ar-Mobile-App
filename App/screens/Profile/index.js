@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -25,8 +25,8 @@ export default function Profile({navigation}) {
   const handleLogout = () => {
     localStorage.clearAll();
     navigation.navigate('Sign In');
-  };
-
+  }; 
+  let user = JSON.parse(localStorage.getString('user') || '{}');
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -39,8 +39,8 @@ export default function Profile({navigation}) {
           <View style={styles.profilePreviewCard}>
             <Image source={UserPlaceholder} width={55} height={55} />
             <View>
-              <Text style={styles.displayName}>Levi Ackerman</Text>
-              <Text style={styles.tagline1}>leviackerman@gmail.com</Text>
+              <Text style={styles.displayName}>{user.name}</Text>
+              <Text style={styles.tagline1}>{user.email}</Text>
             </View>
           </View>
           <View style={styles.menuContainer}>

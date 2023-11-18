@@ -4,6 +4,8 @@ export const passIcon = require('./pass-icon.png');
 export const userIcon = require('./user-icon.png');
 export const emailIcon = require('./email-icon.png');
 export const googleIcon = require('./google-icon.png');
+export const UserPlaceholder = require('./profile.png');
+export const ProductPlaceholder = require('./product-placeholder.png');
 
 // SVGs
 export const shoppingCartVector = `<svg width="277" height="231" viewBox="0 0 277 231" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -353,4 +355,22 @@ export const FaqIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="21" heigh
 </defs>
 </svg>`;
 
-export const UserPlaceholder = require('./profile.png');
+export const RadioButtonIconActive = `<svg xmlns="http://www.w3.org/2000/svg" width="6" height="7" viewBox="0 0 6 7" fill="none">
+<circle cx="3" cy="3.5" r="3" fill="black" fill-opacity="0.9"/>
+<circle cx="3" cy="3.5" r="1.75" stroke="black" stroke-opacity="0.9" stroke-width="2.5"/>
+</svg>`;
+
+export const RadioButtonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+<circle cx="5" cy="5" r="4.5" stroke="black" stroke-opacity="0.6"/>
+</svg>`;
+
+export const SearchIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+<g clip-path="url(#clip0_1_466)">
+  <path d="M16.7917 15.1667H15.9358L15.6325 14.8742C16.6942 13.6392 17.3333 12.0358 17.3333 10.2917C17.3333 6.4025 14.1808 3.25 10.2917 3.25C6.4025 3.25 3.25 6.4025 3.25 10.2917C3.25 14.1808 6.4025 17.3333 10.2917 17.3333C12.0358 17.3333 13.6392 16.6942 14.8742 15.6325L15.1667 15.9358V16.7917L20.5833 22.1975L22.1975 20.5833L16.7917 15.1667ZM10.2917 15.1667C7.59417 15.1667 5.41667 12.9892 5.41667 10.2917C5.41667 7.59417 7.59417 5.41667 10.2917 5.41667C12.9892 5.41667 15.1667 7.59417 15.1667 10.2917C15.1667 12.9892 12.9892 15.1667 10.2917 15.1667Z" fill="#C0C0C0"/>
+</g>
+<defs>
+  <clipPath id="clip0_1_466">
+    <rect width="26" height="26" fill="white"/>
+  </clipPath>
+</defs>
+</svg>`;

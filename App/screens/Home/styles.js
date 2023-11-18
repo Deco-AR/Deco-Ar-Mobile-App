@@ -1,5 +1,5 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import {colors, fonts} from '../../theme';
+import { Dimensions, StyleSheet } from 'react-native';
+import { colors, fonts } from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -13,8 +13,14 @@ export default StyleSheet.create({
   },
   topContainer: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.4,
+    height: Dimensions.get('window').height * 0.2,
     padding: 18,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 12,
   },
   bottomContainer: {
     backgroundColor: colors.theme._100,
@@ -22,18 +28,18 @@ export default StyleSheet.create({
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.6,
-    justifyContent: 'center',
+    height: Dimensions.get('window').height * 0.57,
     position: 'absolute',
     bottom: 0,
     alignItems: 'center',
   },
   containerHeading: {
-    fontSize: fonts.size.p,
+    fontSize: fonts.size.h5,
     fontFamily: fonts.type.medium,
     color: colors.dark,
     textAlign: 'center',
     marginTop: 12,
+    marginBottom: 30,
   },
   profilePreviewCard: {
     width: Dimensions.get('window').width * 0.8,
@@ -90,42 +96,16 @@ export default StyleSheet.create({
     fontFamily: fonts.type.medium,
     color: colors.dark,
   },
-  radioBtnContainer: {
-    borderRadius: 5,
-    overflow: 'hidden',
-    paddingHorizontal: 10,
-    height: 30,
-    shadowColor: 'rgba(0, 0, 0, 0.30)',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 5,
-  },
-  radioBtnChecked: {
-    backgroundColor: colors.theme._300,
-  },
-  radioBtnUnChecked: {
-    borderColor: colors.theme._300,
-    borderWidth: 1,
-  },
-  radioBtnLabel: {
-    fontSize: fonts.size.small,
-    fontFamily: fonts.type.bold,
+  tagline1: {
+    width: Dimensions.get('window').width * 0.8,
+    fontSize: fonts.size.h5,
+    fontFamily: fonts.type.regular,
     color: colors.dark,
   },
-  tagline1: {
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.regular,
-    color: 'rgba(0, 0, 0, 0.90)',
-  },
   tagline2: {
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.medium,
-    color: colors.theme._300,
-    textAlign: 'center',
+    fontSize: fonts.size.h4,
+    fontFamily: fonts.type.bold,
+    color: colors.dark,
   },
   button: {
     height: 48,
@@ -145,30 +125,54 @@ export default StyleSheet.create({
     fontFamily: fonts.type.medium,
     fontSize: fonts.size.p,
   },
-  profilePicContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    borderBottomColor: 'rgba(0, 0, 0, 0.50)',
-    borderBottomWidth: 1,
-    width: Dimensions.get('window').width * 0.6,
-  },
-  label: {
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.bold,
-    color: colors.dark,
-  },
-  inputGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 10,
-  },
   error: {
     color: colors.error,
     fontFamily: fonts.type.regular,
     fontSize: fonts.size.label,
     textAlign: 'center',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 50,
+    paddingHorizontal: 12,
+    backgroundColor: colors.white,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: fonts.size.label,
+    fontFamily: fonts.type.regular,
+    color: colors.dark,
+  },
+  filtersContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginVertical: 12,
+  },
+  selectedFilterBg: {
+    backgroundColor: colors.dark,
+  },
+  filterBg: {
+    backgroundColor: colors.theme._200,
+  },
+  filter: {
+    borderRadius: 40,
+    minWidth: 80,
+    paddingVertical: 8,
+    paddingHorizontal: 25,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  filterText: {
+    fontSize: fonts.size.label,
+    fontFamily: fonts.type.medium,
+    color: colors.dark,
+  },
+  selectedFilterText: {
+    color: colors.theme._300,
+    fontSize: fonts.size.label,
+    fontFamily: fonts.type.medium,
   },
 });

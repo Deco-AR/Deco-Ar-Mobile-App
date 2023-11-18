@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import {
   emailIcon,
 } from '../../assets/images';
 import {register, sendOtp} from '../../apis/auth';
+import localStorage from '../../utils/localStorage';
 
 export default function SignUp({navigation}) {
   const [formData, setFormData] = useState({
@@ -81,6 +82,13 @@ export default function SignUp({navigation}) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    let token = JSON.parse(localStorage.getString('user') || '{}')?.token;
+    if (token) {
+      navigation.navigate('HomeScreens');
+    }
+  }, []);
 
   return (
     <View style={styles.container}>

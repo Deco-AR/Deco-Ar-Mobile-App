@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
 import {welcomeBg} from '../../assets/images';
 import styles from './styles';
+import localStorage from '../../utils/localStorage';
 
 export default function Welcome({navigation}) {
+
+  useEffect(() => {
+    let token = JSON.parse(localStorage.getString('user') || '{}')?.token;
+    if (token) {
+      navigation.navigate('HomeScreens');
+    }
+  }, []);
+
   return (
     <ImageBackground source={welcomeBg} style={styles.container}>
       <View style={styles.topContainer}>

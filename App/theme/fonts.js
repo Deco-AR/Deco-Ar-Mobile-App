@@ -1,4 +1,5 @@
 const size = {
+  heading: 96,
   h1: 48,
   h2: 34,
   h3: 28,
@@ -8,7 +9,7 @@ const size = {
   p: 16,
   label: 14,
   caption: 12,
-  heading: 96,
+  small: 10,
 };
 
 const type = {
