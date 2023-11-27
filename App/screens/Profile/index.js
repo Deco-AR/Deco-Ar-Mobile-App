@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -25,7 +25,7 @@ export default function Profile({navigation}) {
   const handleLogout = () => {
     localStorage.clearAll();
     navigation.navigate('Sign In');
-  }; 
+  };
   let user = JSON.parse(localStorage.getString('user') || '{}');
   return (
     <View style={styles.container}>

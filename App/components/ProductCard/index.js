@@ -1,14 +1,36 @@
 import React from 'react';
-import {Dimensions, Image, Text, View} from 'react-native';
+import {Dimensions, Image, Pressable, Text, View} from 'react-native';
 import {LoveIcon, ProductPlaceholder} from '../../assets/images';
 import {SvgXml} from 'react-native-svg';
 import {colors, fonts} from '../../theme';
+import {useNavigation} from '@react-navigation/native';
 
-export default function ProductCard({photo, title, price, unit}) {
+export default function ProductCard({
+  photo,
+  title,
+  price,
+  unit,
+  description,
+  _id,
+  delivery,
+}) {
+  const navigation = useNavigation();
   return (
-    <View style={{width: 150}}>
+    <Pressable
+      style={{width: 150}}
+      onPress={() =>
+        navigation.navigate('ProductDetails', {
+          photo,
+          title,
+          price,
+          unit,
+          description,
+          _id,
+          delivery,
+        })
+      }>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <View
+        {/* <View
           style={{
             position: 'absolute',
             top: 0,
@@ -21,9 +43,9 @@ export default function ProductCard({photo, title, price, unit}) {
             width={20}
             height={20}
           />
-        </View>
+        </View> */}
         <Image
-          source={{uri: 'https://i.ibb.co/SRq3Xjt/product-3.png'}}
+          source={photo ? {uri: photo} : ProductPlaceholder}
           resizeMode="stretch"
           resizeMethod="scale"
           style={{width: 150, height: 200}}
@@ -44,14 +66,9 @@ export default function ProductCard({photo, title, price, unit}) {
           fontFamily: fonts.type.medium,
           fontSize: fonts.size.p,
         }}>
-        {unit}{price}
+        {unit}
+        {price}
       </Text>
-    </View>
+    </Pressable>
   );
-}
-
-{
-  /* <a href="https://imgbb.com/"><img src="https://i.ibb.co/SRq3Xjt/product-3.png" alt="product-3" border="0"></a>
-    <a href="https://imgbb.com/"><img src="https://i.ibb.co/MprQqtX/product-2.png" alt="product-2" border="0"></a>
-    <a href="https://imgbb.com/"><img src="https://i.ibb.co/7RXCHDW/product-1.png" alt="product-1" border="0"></a> */
 }

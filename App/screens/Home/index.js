@@ -124,14 +124,6 @@ export default function Profile({navigation}) {
             })}
           </View>
         </ScrollView>
-        {/* <FlatList
-          scrollEnabled={true}
-          onRefresh={fetchProducts}
-          refreshing={isLoading}
-          data={productList}
-          renderItem={({item}) => <ProductCard {...item} />}
-          keyExtractor={item => item.id}
-        /> */}
       </View>
     </View>
   );

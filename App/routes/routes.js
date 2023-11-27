@@ -17,6 +17,7 @@ import Category from '../screens/Category';
 import {CartIcon, CategoryIcon, HomeIcon, ProfileIcon} from '../assets/images';
 import {SvgXml} from 'react-native-svg';
 import ProfileDetail from '../screens/ProfileDetail';
+import ProductDetails from '../screens/ProductDetails';
 
 export default function Routes() {
   const Stack = createNativeStackNavigator();
@@ -49,8 +50,8 @@ function HomeNavigation() {
         tabBarStyle: {height: 60, backgroundColor: '#fff'},
       }}>
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeNestedNavigation"
+        component={HomeNestedNavigation}
         options={{
           tabBarIcon: ({focused}) => BottomTabsIcon(HomeIcon, focused),
           headerShown: false,
@@ -82,6 +83,18 @@ function HomeNavigation() {
       />
     </Tab.Navigator>
   );
+}
+
+function HomeNestedNavigation() {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="ProductDetails" component={ProductDetails} />
+    </Stack.Navigator>
+  ); 
 }
 
 function ProfileNavigation() {
