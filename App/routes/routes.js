@@ -11,6 +11,13 @@ import ForgotPassword from '../screens/ForgotPassword';
 import VerifyCode from '../screens/VerifyCode';
 import Home from '../screens/Home';
 import Successfull from '../screens/Successfull';
+import Profile from '../screens/Profile';
+import Cart from '../screens/Cart';
+import Category from '../screens/Category';
+import {CartIcon, CategoryIcon, HomeIcon, ProfileIcon} from '../assets/images';
+import {SvgXml} from 'react-native-svg';
+import ProfileDetail from '../screens/ProfileDetail';
+import ProductDetails from '../screens/ProductDetails';
 
 export default function Routes() {
   const Stack = createNativeStackNavigator();
@@ -26,7 +33,7 @@ export default function Routes() {
         <Stack.Screen name="Forgot Password" component={ForgotPassword} />
         <Stack.Screen name="Verify Code" component={VerifyCode} />
         <Stack.Screen name="Successfull" component={Successfull} />
-        <Stack.Screen name="Home" component={HomeNavigation} />
+        <Stack.Screen name="HomeScreens" component={HomeNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -35,8 +42,77 @@ export default function Routes() {
 function HomeNavigation() {
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
-      <Tab.Screen name="Home" component={Home} />
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        tabBarLabel: () => null,
+        tabBarStyle: {height: 60, backgroundColor: '#fff'},
+      }}>
+      <Tab.Screen
+        name="HomeNestedNavigation"
+        component={HomeNestedNavigation}
+        options={{
+          tabBarIcon: ({focused}) => BottomTabsIcon(HomeIcon, focused),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Category"
+        component={Category}
+        options={{
+          tabBarIcon: ({focused}) => BottomTabsIcon(CategoryIcon, focused),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          tabBarIcon: ({focused}) => BottomTabsIcon(CartIcon, focused),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="ProfileStack"
+        component={ProfileNavigation}
+        options={{
+          tabBarIcon: ({focused}) => BottomTabsIcon(ProfileIcon, focused),
+          headerShown: false,
+        }}
+      />
     </Tab.Navigator>
   );
 }
+
+function HomeNestedNavigation() {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="ProductDetails" component={ProductDetails} />
+    </Stack.Navigator>
+  ); 
+}
+
+function ProfileNavigation() {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator
+      initialRouteName="Profile"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="PersonalDetail" component={ProfileDetail} />
+    </Stack.Navigator>
+  );
+}
+
+export const BottomTabsIcon = (icon, focused) => (
+  <SvgXml
+    xml={icon}
+    fill={focused ? '#FDCB6E' : '#000000'}
+    stroke={focused ? '#FDCB6E' : '#000000'}
+  />
+);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import {
   emailIcon,
 } from '../../assets/images';
 import {register, sendOtp} from '../../apis/auth';
+import localStorage from '../../utils/localStorage';
 
 export default function SignUp({navigation}) {
   const [formData, setFormData] = useState({
@@ -82,6 +83,13 @@ export default function SignUp({navigation}) {
     }
   };
 
+  useEffect(() => {
+    let token = JSON.parse(localStorage.getString('user') || '{}')?.token;
+    if (token) {
+      navigation.navigate('HomeScreens');
+    }
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -101,6 +109,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={userIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Your Name"
                 style={styles.input}
                 value={formData.name}
@@ -111,6 +120,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={emailIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Your Email"
                 style={styles.input}
                 value={formData.email}
@@ -121,6 +131,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={passIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Password"
                 style={styles.input}
                 secureTextEntry={!showPassword}
@@ -143,6 +154,7 @@ export default function SignUp({navigation}) {
             <View style={styles.inputContainer}>
               <Image source={passIcon} />
               <TextInput
+                placeholderTextColor={'#BDBDBD'}
                 placeholder="Confirm Password"
                 style={styles.input}
                 secureTextEntry={!showConfirmPassword}

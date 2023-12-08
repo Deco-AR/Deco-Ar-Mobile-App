@@ -60,6 +60,7 @@ export default StyleSheet.create({
     fontSize: fonts.size.label,
     fontFamily: fonts.type.regular,
     width: '100%',
+    color: colors.dark,
   },
   inputContainer: {
     flexDirection: 'row',

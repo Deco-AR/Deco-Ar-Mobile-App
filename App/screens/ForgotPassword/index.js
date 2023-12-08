@@ -21,7 +21,9 @@ export default function ForgotPassword({navigation}) {
       setLoading(true);
       await sendOtp(email);
       navigation.navigate('Verify Code', {email});
+      console.log('OTP sent');
     } catch (e) {
+      console.log(e);
       setError(e.response.data.message || 'Something went wrong');
     } finally {
       setLoading(false);
@@ -42,6 +44,7 @@ export default function ForgotPassword({navigation}) {
         <View style={styles.inputs}>
           <View style={styles.inputContainer}>
             <TextInput
+              placeholderTextColor={'#BDBDBD'}
               placeholder="enter your email address here"
               style={styles.input}
               value={email}

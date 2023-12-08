@@ -67,6 +67,7 @@ export default function VerifyCode({navigation, route}) {
         <View style={styles.inputs}>
           <View style={styles.inputContainer}>
             <TextInput
+              placeholderTextColor={'#BDBDBD'}
               placeholder="enter verification code here"
               keyboardType="numeric"
               style={styles.input}

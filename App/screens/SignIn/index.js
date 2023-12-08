@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -47,8 +47,9 @@ export default function SignIn({navigation}) {
       setLoading(true);
       if (formValidation()) {
         let res = await login(formData.email, formData.password);
-        localStorage.set('token', res.token);
-        navigation.navigate('Home');
+        console.log(res);
+        localStorage.set('user', JSON.stringify(res));
+        navigation.navigate('HomeScreens');
       }
     } catch (e) {
       setError(e?.response?.data?.message || 'Something went wrong');
@@ -56,6 +57,13 @@ export default function SignIn({navigation}) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    let token = JSON.parse(localStorage.getString('user') || '{}')?.token;
+    if (token) {
+      navigation.navigate('HomeScreens');
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -75,6 +83,7 @@ export default function SignIn({navigation}) {
           <View style={styles.inputContainer}>
             <Image source={userIcon} />
             <TextInput
+              placeholderTextColor={'#BDBDBD'}
               placeholder="email"
               style={styles.input}
               value={formData.email}
@@ -85,6 +94,7 @@ export default function SignIn({navigation}) {
           <View style={styles.inputContainer}>
             <Image source={passIcon} />
             <TextInput
+              placeholderTextColor={'#BDBDBD'}
               placeholder="password"
               style={styles.input}
               secureTextEntry={!showPassword}
