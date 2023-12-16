@@ -10,7 +10,7 @@ import styles from './styles';
 import {colors, fonts} from '../../theme';
 import localStorage from '../../utils/localStorage';
 
-export default function ProductDetails({route}) {
+export default function ProductDetails({route, navigation}) {
   let data = route.params || {};
 
   const [selectedSize, setSelectedSize] = useState('s');
@@ -57,6 +57,11 @@ export default function ProductDetails({route}) {
             {data?.title}
           </Text>
           <Pressable
+            onPress={() =>
+              navigation.navigate('ARSetup', {
+                uri: data?.previewPhoto || data?.photo,
+              })
+            }
             style={{
               width: 98,
               height: 40,
