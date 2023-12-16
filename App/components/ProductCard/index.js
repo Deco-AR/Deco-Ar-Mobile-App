@@ -6,6 +6,7 @@ import {colors, fonts} from '../../theme';
 import {useNavigation} from '@react-navigation/native';
 
 export default function ProductCard({
+  previewPhoto,
   photo,
   title,
   price,
@@ -20,6 +21,7 @@ export default function ProductCard({
       style={{width: 150}}
       onPress={() =>
         navigation.navigate('ProductDetails', {
+          previewPhoto,
           photo,
           title,
           price,
