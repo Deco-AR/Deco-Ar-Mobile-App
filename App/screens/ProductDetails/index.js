@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, Image, Dimensions, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Pressable,
+  ToastAndroid,
+} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {
   EyeIcon,
@@ -13,6 +20,10 @@ import localStorage from '../../utils/localStorage';
 export default function ProductDetails({route, navigation}) {
   let data = route.params || {};
 
+  const showToast = text => {
+    ToastAndroid.show(text, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+  };
+
   const [selectedSize, setSelectedSize] = useState('s');
   const [quantity, setQuantity] = useState(1);
 
@@ -25,6 +36,7 @@ export default function ProductDetails({route, navigation}) {
     };
     cart?.push(cartItem);
     localStorage.set('cart', JSON.stringify(cart));
+    showToast('Item added to cart');
   };
 
   return (
@@ -59,7 +71,7 @@ export default function ProductDetails({route, navigation}) {
           <Pressable
             onPress={() =>
               navigation.navigate('ARSetup', {
-                uri: data?.previewPhoto || data?.photo,
+                uri: data?.photo,
               })
             }
             style={{

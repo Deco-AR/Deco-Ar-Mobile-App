@@ -1,6 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 import {Provider} from 'react-redux';
+import {StripeProvider} from '@stripe/stripe-react-native';
 import Routes from './App/routes/routes';
 import store from './App/store';
 
@@ -19,7 +20,13 @@ function App() {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Provider store={store}>
-        <Routes />
+        <StripeProvider
+          publishableKey="pk_test_51Mnrt1LEakj4DtSKhcndalCwvXTvKRLgzc1jLWTvQvh7UL10JfsfEFOfVFFDRJUuQ82GhuwTgsr7KguSJfxF3u0b00JCi5voTo"
+          urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+          merchantIdentifier="merchant.com.payment_integration" // required for Apple Pay
+        >
+          <Routes />
+        </StripeProvider>
       </Provider>
     </SafeAreaView>
   );

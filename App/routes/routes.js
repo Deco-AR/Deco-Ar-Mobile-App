@@ -22,6 +22,7 @@ import ARPreview from '../screens/ARPreview';
 import ARSetup from '../screens/ARSetup';
 import ARPreviewSmall from '../screens/ARPreview/ARPreviewSmall';
 import ARPreviewMedium from '../screens/ARPreview/ARPreviewMedium';
+import Pay from '../screens/Pay';
 
 export default function Routes() {
   const Stack = createNativeStackNavigator();
@@ -71,7 +72,7 @@ function HomeNavigation() {
       />
       <Tab.Screen
         name="Cart"
-        component={Cart}
+        component={CartNavigation}
         options={{
           tabBarIcon: ({focused}) => BottomTabsIcon(CartIcon, focused),
           headerShown: false,
@@ -101,6 +102,18 @@ function HomeNestedNavigation() {
       <Stack.Screen name="ARPreviewSmall" component={ARPreviewSmall} />
       <Stack.Screen name="ARPreviewMedium" component={ARPreviewMedium} />
       <Stack.Screen name="ARPreviewLarge" component={ARPreview} />
+    </Stack.Navigator>
+  );
+}
+
+function CartNavigation() {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator
+      initialRouteName="CartScreen"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="CartScreen" component={Cart} />
+      <Stack.Screen name="Pay" component={Pay} />
     </Stack.Navigator>
   );
 }
