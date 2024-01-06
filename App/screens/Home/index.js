@@ -4,10 +4,8 @@ import {
   Text,
   TextInput,
   Pressable,
-  FlatList,
   ActivityIndicator,
   ScrollView,
-  Dimensions,
 } from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {ProfilePicPlaceholder, SearchIcon} from '../../assets/images';
@@ -19,13 +17,35 @@ export default function Profile({navigation}) {
   const [selectedFilter, setSelectedFilter] = useState('trending');
   const [productList, setProductList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // const fetchProducts = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     let response = await getAllListedProducts();
+  //     setProductList(response || []);
+  //   } catch (error) {
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
       let response = await getAllListedProducts();
-      setProductList(response || []);
+
+      // Filter products based on search query only if there is a search query
+      const filteredProducts =
+        searchQuery !== ''
+          ? response.filter(item =>
+              item.title.toLowerCase().includes(searchQuery.toLowerCase()),
+            )
+          : response;
+
+      setProductList(filteredProducts || []);
     } catch (error) {
+      // Handle error
     } finally {
       setIsLoading(false);
     }
@@ -33,7 +53,7 @@ export default function Profile({navigation}) {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [searchQuery]);
 
   return (
     <View style={styles.container}>
@@ -55,7 +75,12 @@ export default function Profile({navigation}) {
             height="26"
             style={styles.searchIcon}
           />
-          <TextInput placeholder="Search" style={styles.searchInput} />
+          <TextInput
+            placeholder="Search"
+            style={styles.searchInput}
+            value={searchQuery}
+            onChangeText={text => setSearchQuery(text)}
+          />
         </View>
         <View style={styles.filtersContainer}>
           <Pressable
@@ -119,9 +144,9 @@ export default function Profile({navigation}) {
         )}
         <ScrollView scrollEnabled showsVerticalScrollIndicator={false}>
           <View style={{flexDirection: 'row', gap: 20, flexWrap: 'wrap'}}>
-            {productList.map(item => {
-              return <ProductCard {...item} />;
-            })}
+            {productList.map(item => (
+              <ProductCard key={item.id} {...item} />
+            ))}
           </View>
         </ScrollView>
       </View>

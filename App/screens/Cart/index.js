@@ -139,6 +139,7 @@ export default function Cart({navigation}) {
               </Text>
             </View>
             <TouchableOpacity
+              onPress={() => navigation.navigate('Pay', {totalPrice})}
               style={{
                 width: '100%',
                 height: 56,
