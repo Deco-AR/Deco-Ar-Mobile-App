@@ -126,12 +126,12 @@ export default function SignIn({navigation}) {
             <Text style={styles.buttonText}>SIGN IN</Text>
           )}
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[styles.button, styles.googleButton]}
           onPress={() => navigation.navigate('Home')}>
           <Image source={googleIcon} />
           <Text style={styles.buttonText}>SIGN IN WITH GOOGLE</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

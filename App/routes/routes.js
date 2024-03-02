@@ -23,6 +23,7 @@ import ARSetup from '../screens/ARSetup';
 import ARPreviewSmall from '../screens/ARPreview/ARPreviewSmall';
 import ARPreviewMedium from '../screens/ARPreview/ARPreviewMedium';
 import Pay from '../screens/Pay';
+import MyOrders from '../screens/MyOrders';
 
 export default function Routes() {
   const Stack = createNativeStackNavigator();
@@ -126,6 +127,7 @@ function ProfileNavigation() {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="PersonalDetail" component={ProfileDetail} />
+      <Stack.Screen name="MyOrders" component={MyOrders} />
     </Stack.Navigator>
   );
 }

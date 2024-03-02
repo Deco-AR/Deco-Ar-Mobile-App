@@ -184,12 +184,12 @@ export default function SignUp({navigation}) {
               <Text style={styles.buttonText}>SIGN UP</Text>
             )}
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[styles.button, styles.googleButton]}
             onPress={() => navigation.navigate('Home')}>
             <Image source={googleIcon} />
             <Text style={styles.buttonText}>SIGN UP WITH GOOGLE</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ScrollView>
       </View>
     </View>

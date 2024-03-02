@@ -49,7 +49,11 @@ export default function Profile({navigation}) {
               icon={ProfileIcon}
               onPress={() => navigation.navigate('PersonalDetail')}
             />
-            <MenuItem text={'My Order'} icon={OrdersIcon} />
+            <MenuItem
+              text={'My Order'}
+              icon={OrdersIcon}
+              onPress={() => navigation.navigate('MyOrders')}
+            />
             <MenuItem text={'My Favourites'} icon={LoveIcon} />
             <MenuItem text={'FAQs'} icon={FaqIcon} />
           </View>
