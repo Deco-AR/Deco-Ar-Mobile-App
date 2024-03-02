@@ -1,9 +1,12 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import {SafeAreaView, StatusBar, useColorScheme, LogBox} from 'react-native';
 import {Provider} from 'react-redux';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import Routes from './App/routes/routes';
 import store from './App/store';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';

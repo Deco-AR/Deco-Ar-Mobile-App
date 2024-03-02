@@ -1,17 +1,15 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  Image,
-  ScrollView,
   Pressable,
-  TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
   Dimensions,
   ToastAndroid,
   ActivityIndicator,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {useStripe} from '@stripe/stripe-react-native';
@@ -26,6 +24,11 @@ import api from '../../apis';
 export default function Pay({navigation, route}) {
   const [paymentMethod, setPaymentMethod] = useState('COD');
   const [loading, setLoading] = useState(false);
+  const [orderData, setOrderData] = useState({
+    name: '',
+    phone: '',
+    address: '',
+  });
 
   const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const data = route.params;
@@ -34,6 +37,11 @@ export default function Pay({navigation, route}) {
   const fetchPaymentSheetParams = async () => {
     let customer_id = 'cus_OWSON6RxWhiXQ0';
     try {
+      if (!orderData?.name || !orderData?.phone || !orderData?.address) {
+        showToast('Please fill all the fields');
+        return;
+      }
+      setLoading(true);
       const response = await fetch(
         'http://35.154.49.30:5000/api/payment/payment-sheet',
         {
@@ -47,9 +55,8 @@ export default function Pay({navigation, route}) {
           }),
         },
       );
-      console.log(response, 'response');
+      setLoading(false);
       const {paymentIntent, ephemeralKey, customer} = await response.json();
-      console.log(paymentIntent, ephemeralKey, customer, 'response');
       return {
         paymentIntent,
         ephemeralKey,
@@ -77,9 +84,6 @@ export default function Pay({navigation, route}) {
       //methods that complete payment after a delay, like SEPA Debit and Sofort.
       allowsDelayedPaymentMethods: true,
     });
-    if (!error) {
-      setLoading(true);
-    }
   };
 
   const openPaymentSheet = async () => {
@@ -93,8 +97,10 @@ export default function Pay({navigation, route}) {
   };
 
   useEffect(() => {
-    initializePaymentSheet();
-  }, []);
+    if (paymentMethod !== 'COD') {
+      initializePaymentSheet();
+    }
+  }, [paymentMethod]);
 
   const showToast = text => {
     ToastAndroid.show(text, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
@@ -102,10 +108,20 @@ export default function Pay({navigation, route}) {
 
   const handleCreateOrder = async () => {
     try {
+      if (!orderData?.name || !orderData?.phone || !orderData?.address) {
+        showToast('Please fill all the fields');
+        return;
+      }
       setLoading(true);
       let uid = JSON.parse(localStorage.getString('user') || '{}')?.uid;
       await api.post('/order', {
-        customer: {user: uid},
+        customer: {
+          user: uid,
+          name: orderData?.name,
+          phone: orderData?.phone,
+          shippingAddress: orderData?.address,
+          billingAddress: orderData?.address,
+        },
         items: cart[0]?._id || '',
         quantity: cart?.length,
         total: data?.totalPrice,
@@ -123,7 +139,7 @@ export default function Pay({navigation, route}) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.brandName}>DECO-AR</Text>
         <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" />
@@ -148,6 +164,8 @@ export default function Pay({navigation, route}) {
                   borderBottomWidth: 1,
                   borderBottomColor: '#D3D3D3',
                 }}
+                value={orderData?.name}
+                onChangeText={text => setOrderData({...orderData, name: text})}
                 placeholder="Enter Name"
               />
             </View>
@@ -168,6 +186,8 @@ export default function Pay({navigation, route}) {
                   borderBottomWidth: 1,
                   borderBottomColor: '#D3D3D3',
                 }}
+                value={orderData?.phone}
+                onChangeText={text => setOrderData({...orderData, phone: text})}
                 placeholder="Enter Phone Number"
               />
             </View>
@@ -188,6 +208,10 @@ export default function Pay({navigation, route}) {
                   borderBottomWidth: 1,
                   borderBottomColor: '#D3D3D3',
                 }}
+                value={orderData?.address}
+                onChangeText={text =>
+                  setOrderData({...orderData, address: text})
+                }
                 placeholder="Enter Address"
               />
             </View>
@@ -243,7 +267,15 @@ export default function Pay({navigation, route}) {
             ${data?.totalPrice || 0}
           </Text>
           <Pressable
-            onPress={openPaymentSheet}
+            disabled={
+              loading ||
+              !orderData?.name ||
+              !orderData?.phone ||
+              !orderData?.address
+            }
+            onPress={
+              paymentMethod === 'COD' ? handleCreateOrder : openPaymentSheet
+            }
             style={{
               width: 120,
               height: 40,
@@ -264,6 +296,6 @@ export default function Pay({navigation, route}) {
           </Pressable>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
