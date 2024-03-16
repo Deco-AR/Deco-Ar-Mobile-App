@@ -1,9 +1,17 @@
-import React from 'react';
-import {Dimensions, Image, Pressable, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Image,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+  ToastAndroid,
+} from 'react-native';
 import {LoveIcon, ProductPlaceholder} from '../../assets/images';
 import {SvgXml} from 'react-native-svg';
 import {colors, fonts} from '../../theme';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import localStorage from '../../utils/localStorage';
 
 export default function ProductCard({
   photo,
@@ -15,6 +23,36 @@ export default function ProductCard({
   delivery,
 }) {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  const handleAddToFavourite = () => {
+    setIsFavourite(!isFavourite);
+    let favourites = JSON.parse(localStorage.getString('favourites') || '[]');
+
+    let filteredFavourites = isFavourite
+      ? favourites.filter(item => item?._id !== _id)
+      : [...favourites, {photo, title, price, _id}];
+
+    localStorage.set('favourites', JSON.stringify(filteredFavourites));
+
+    ToastAndroid.show(
+      isFavourite ? 'Removed from favourites' : 'Added to favourites',
+      ToastAndroid.SHORT,
+    );
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      setIsFavourite(
+        JSON.parse(localStorage.getString('favourites') || '[]').some(
+          item => item?._id === _id,
+        ),
+      );
+    }
+  } , [isFocused]);
+
   return (
     <Pressable
       style={{width: 150}}
@@ -30,20 +68,22 @@ export default function ProductCard({
         })
       }>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        {/* <View
+        <TouchableOpacity
+          onPress={handleAddToFavourite}
           style={{
             position: 'absolute',
-            top: 0,
-            right: 0,
-            backgroundColor: colors.white,
+            top: 6,
+            right: 6,
+            zIndex: 1,
+            width: 30,
+            height: 30,
+            borderRadius: 15,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: isFavourite ? colors.error : 'transparent',
           }}>
-          <SvgXml
-            stroke={colors.theme._300}
-            xml={LoveIcon}
-            width={20}
-            height={20}
-          />
-        </View> */}
+          <SvgXml xml={LoveIcon} width={20} height={20} />
+        </TouchableOpacity>
         <Image
           source={photo ? {uri: photo} : ProductPlaceholder}
           resizeMode="stretch"

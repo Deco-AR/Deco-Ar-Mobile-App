@@ -54,7 +54,11 @@ export default function Profile({navigation}) {
               icon={OrdersIcon}
               onPress={() => navigation.navigate('MyOrders')}
             />
-            <MenuItem text={'My Favourites'} icon={LoveIcon} />
+            <MenuItem
+              text={'My Favourites'}
+              icon={LoveIcon}
+              onPress={() => navigation.navigate('MyFavourites')}
+            />
             <MenuItem text={'FAQs'} icon={FaqIcon} />
           </View>
           <TouchableOpacity
