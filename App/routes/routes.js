@@ -24,6 +24,7 @@ import ARPreviewSmall from '../screens/ARPreview/ARPreviewSmall';
 import ARPreviewMedium from '../screens/ARPreview/ARPreviewMedium';
 import Pay from '../screens/Pay';
 import MyOrders from '../screens/MyOrders';
+import MyFavourites from '../screens/MyFavourites';
 
 export default function Routes() {
   const Stack = createNativeStackNavigator();
@@ -128,6 +129,7 @@ function ProfileNavigation() {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="PersonalDetail" component={ProfileDetail} />
       <Stack.Screen name="MyOrders" component={MyOrders} />
+      <Stack.Screen name="MyFavourites" component={MyFavourites} />
     </Stack.Navigator>
   );
 }

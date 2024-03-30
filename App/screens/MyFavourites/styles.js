@@ -1,5 +1,5 @@
-import { Dimensions, StyleSheet } from 'react-native';
-import { colors, fonts } from '../../theme';
+import {Dimensions, StyleSheet} from 'react-native';
+import {colors, fonts} from '../../theme';
 
 export default StyleSheet.create({
   container: {
@@ -14,22 +14,17 @@ export default StyleSheet.create({
   topContainer: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height * 0.2,
-    padding: 18,
-  },
-  headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 12,
+    padding: 18,
   },
   bottomContainer: {
     backgroundColor: colors.theme._100,
-    paddingHorizontal: 40,
-    paddingTop: 40,
+    padding: 40,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.57,
+    minHeight: Dimensions.get('window').height * 0.8,
     position: 'absolute',
     bottom: 0,
     alignItems: 'center',
@@ -84,29 +79,47 @@ export default StyleSheet.create({
   },
   menuItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: colors.theme._200,
+    borderRadius: 13,
+    width: Dimensions.get('window').width * 0.85,
+    padding: 12,
+    marginBottom: 25,
+    shadowColor: 'rgba(0, 0, 0, 0.20)',
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 20,
+    elevation: 4,
   },
   menuIconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 15,
   },
+  menuTextContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginLeft: 12,
+    height: 75,
+  },
   menuItemText: {
     fontSize: fonts.size.label,
-    fontFamily: fonts.type.medium,
+    fontFamily: fonts.type.bold,
     color: colors.dark,
   },
   tagline1: {
-    width: Dimensions.get('window').width * 0.8,
-    fontSize: fonts.size.h5,
+    fontSize: fonts.size.label,
     fontFamily: fonts.type.regular,
-    color: colors.dark,
+    color: 'rgba(0, 0, 0, 0.90)',
   },
   tagline2: {
-    fontSize: fonts.size.h4,
-    fontFamily: fonts.type.bold,
-    color: colors.dark,
+    fontSize: fonts.size.label,
+    fontFamily: fonts.type.medium,
+    color: colors.theme._300,
+    textAlign: 'center',
   },
   button: {
     height: 48,
@@ -131,49 +144,5 @@ export default StyleSheet.create({
     fontFamily: fonts.type.regular,
     fontSize: fonts.size.label,
     textAlign: 'center',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 50,
-    paddingHorizontal: 12,
-    backgroundColor: colors.white,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.regular,
-    color: colors.dark,
-  },
-  filtersContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginVertical: 12,
-  },
-  selectedFilterBg: {
-    backgroundColor: colors.dark,
-  },
-  filterBg: {
-    backgroundColor: colors.theme._200,
-  },
-  filter: {
-    borderRadius: 40,
-    minWidth: 80,
-    paddingVertical: 8,
-    paddingHorizontal: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  filterText: {
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.medium,
-    color: colors.dark,
-  },
-  selectedFilterText: {
-    color: colors.theme._300,
-    fontSize: fonts.size.label,
-    fontFamily: fonts.type.medium,
   },
 });
