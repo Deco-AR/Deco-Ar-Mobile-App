@@ -11,6 +11,8 @@ import {
   Modal,
   TextInput,
   ToastAndroid,
+  Linking,
+  Button,
 } from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {
@@ -28,7 +30,7 @@ export default function MyOrders({navigation}) {
   let user = JSON.parse(localStorage.getString('user') || '{}');
   const [loading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]);
-
+  const [isReviewSubmit, setIsReviewSubmit] = useState(false);
   const fetchUserOrders = async () => {
     setIsLoading(true);
     try {
@@ -44,7 +46,7 @@ export default function MyOrders({navigation}) {
 
   useEffect(() => {
     fetchUserOrders();
-  }, []);
+  }, [isReviewSubmit]);
 
   return (
     <View style={styles.container}>
@@ -69,8 +71,10 @@ export default function MyOrders({navigation}) {
                   title={item.items[0]?.title}
                   photo={item.items[0]?.photo}
                   productId={item.items[0]?._id}
-                  userId={user._id}
+                  userId={user.uid}
                   reviews={item.items[0]?.reviews}
+                  item={item}
+                  setIsReviewSubmit={setIsReviewSubmit}
                 />
               )}
             />
@@ -91,8 +95,11 @@ const OrderedItem = ({
   userId,
   reviews = [],
   onPress = () => {},
+  setIsReviewSubmit,
+  item,
 }) => {
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [orderModal, setOrderModal] = useState(false);
   const [isSubmiting, setIsSubmiting] = useState(false);
 
   const handleSubmitReview = async (comment, rating) => {
@@ -113,6 +120,7 @@ const OrderedItem = ({
       });
       ToastAndroid.show('Review Submitted', ToastAndroid.SHORT);
       setShowReviewModal(false);
+      setIsReviewSubmit(true);
     } catch (e) {
       ToastAndroid.show('Failed to submit review', ToastAndroid.SHORT);
     } finally {
@@ -121,7 +129,7 @@ const OrderedItem = ({
   };
 
   let alreadyReviewed = reviews.find(r => r.user === userId) ? true : false;
-
+  const review = reviews.find(r => r.user === userId);
   return (
     <Pressable style={styles.menuItem} onPress={onPress}>
       <View style={styles.menuIconContainer}>
@@ -133,7 +141,9 @@ const OrderedItem = ({
         />
       </View>
       <View style={styles.menuTextContainer}>
-        <Text style={styles.menuItemText}>{title || 'Unlisted Product'}</Text>
+        <TouchableOpacity onPress={() => setOrderModal(true)}>
+          <Text style={styles.menuItemText}>{title || 'Unlisted Product'}</Text>
+        </TouchableOpacity>
         <Text style={styles.menuItemText}>${price}</Text>
         <View
           style={{
@@ -151,11 +161,14 @@ const OrderedItem = ({
           {status === 'delivered' && (
             <TouchableOpacity
               style={styles.button}
-              disabled={alreadyReviewed}
               onPress={() => setShowReviewModal(true)}>
-              <Text style={styles.buttonText}>
-                {alreadyReviewed ? 'Reviewed' : 'Review'}
-              </Text>
+              {isSubmiting ? (
+                <ActivityIndicator size="large" color={colors.theme._300} />
+              ) : (
+                <Text style={styles.buttonText}>
+                  {alreadyReviewed ? 'Reviewed' : 'Review'}
+                </Text>
+              )}
             </TouchableOpacity>
           )}
         </View>
@@ -164,6 +177,12 @@ const OrderedItem = ({
         open={showReviewModal}
         onClose={() => setShowReviewModal(false)}
         onSubmit={handleSubmitReview}
+        review={review}
+      />
+      <OrderDetailModal
+        open={orderModal}
+        onClose={() => setOrderModal(false)}
+        item={item}
       />
     </Pressable>
   );
@@ -173,6 +192,7 @@ const ReviewModal = ({
   onClose = () => {},
   open = false,
   onSubmit = () => {},
+  review,
 }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
@@ -181,17 +201,18 @@ const ReviewModal = ({
     setRating(value);
   };
 
-  const renderStars = () => {
+  const renderStars = existingRating => {
     const stars = [];
     const maxStars = 5;
     for (let i = 1; i <= maxStars; i++) {
       stars.push(
         <TouchableOpacity
           key={i}
+          disabled={existingRating ? true : false}
           onPress={() => handleRating(i)}
           activeOpacity={0.7}>
           <SvgXml
-            xml={i <= rating ? filledStar : outlineStar}
+            xml={i <= (existingRating || rating) ? filledStar : outlineStar} // Use existingRating if provided, else use rating
             width={24}
             height={24}
           />
@@ -207,32 +228,99 @@ const ReviewModal = ({
         <Pressable
           style={styles.modalContent}
           onPress={e => e.stopPropagation()}>
+          {review ? (
+            <>
+              <Text style={styles.modalHeading}>Review</Text>
+              <Text style={styles.modalSubHeading}>
+                How was your experience with the product?
+              </Text>
+              <TextInput
+                style={styles.reviewInput}
+                multiline
+                value={review.comment}
+                editable={false}
+              />
+              {/* Rating Stars */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                {renderStars(review.rating)}
+              </View>
+            </>
+          ) : (
+            <>
+              <Text style={styles.modalHeading}>Review</Text>
+              <Text style={styles.modalSubHeading}>
+                How was your experience with the product?
+              </Text>
+              <TextInput
+                style={styles.reviewInput}
+                multiline
+                value={comment}
+                onChangeText={setComment}
+              />
+              {/* Rating Stars */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                {renderStars()}
+              </View>
+              <TouchableOpacity
+                style={styles.reviewButton}
+                onPress={() => onSubmit(comment, rating)}>
+                <Text style={styles.reviewButtonText}>Submit</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </Pressable>
+      </Pressable>
+    </Modal>
+  );
+};
+
+const OrderDetailModal = ({onClose = () => {}, open = false, item}) => {
+  console.log('item', item);
+  const { customer, date, items, quantity, status, total } = item;
+  return (
+    <Modal animationType="slide" transparent={true} visible={open}>
+      <Pressable style={styles.modalContainer} onPress={onClose}>
+        <Pressable
+          style={styles.modalContent}
+          onPress={e => e.stopPropagation()}>
           <>
-            <Text style={styles.modalHeading}>Review</Text>
-            <Text style={styles.modalSubHeading}>
-              How was your experience with the product?
-            </Text>
-            <TextInput
-              style={styles.reviewInput}
-              multiline
-              value={comment}
-              onChangeText={setComment}
-            />
-            {/* Rating Stars */}
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: 8,
-              }}>
-              {renderStars()}
+            <View style={styles.popup}>
+              <Text style={styles.title}>Order Details</Text>
+              <Text style={styles.label}>Customer Name:</Text>
+              <Text>{customer.user.name}</Text>
+              <Text style={styles.label}>Date:</Text>
+              <Text>{new Date(date).toLocaleString()}</Text>
+              <Text style={styles.label}>Items:</Text>
+              {items.map((item, index) => (
+                <View key={index} style={styles.itemContainer}>
+                  <Text>Quantity: {item.quantity}</Text>
+                  <Text>Price: ${item.price}</Text>
+                </View>
+              ))}
+              <Text style={styles.label}>Shipping Address:</Text>
+              <Text>{customer.shippingAddress}</Text>
+              <Text style={styles.label}>Billing Address:</Text>
+              <Text>{customer.billingAddress}</Text>
+              <Text style={styles.label}>Status:</Text>
+              <Text>{status}</Text>
+              <Text style={styles.label}>Total:</Text>
+              <Text>${total}</Text>
+              <View style={styles.buttonStyle}>
+                <Button title="Close" onPress={onClose} />
+              </View>
             </View>
-            <TouchableOpacity
-              style={styles.reviewButton}
-              onPress={() => onSubmit(comment, rating)}>
-              <Text style={styles.reviewButtonText}>Submit</Text>
-            </TouchableOpacity>
           </>
         </Pressable>
       </Pressable>
