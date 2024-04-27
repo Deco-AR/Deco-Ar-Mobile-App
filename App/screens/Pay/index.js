@@ -125,13 +125,17 @@ export default function Pay({navigation, route}) {
         items: cart[0]?._id || '',
         quantity: cart?.length,
         total: data?.totalPrice,
-        status: 'in_progress',
+        orderStatus: {
+          status: 'in_progress',
+          timestamp: new Date(),
+        },
         date: new Date(),
       });
       localStorage.set('cart', JSON.stringify([]));
       showToast('Order Placed');
       navigation.navigate('Home');
     } catch (e) {
+      console.log(e);
       showToast('An Error Occured');
     } finally {
       setLoading(false);

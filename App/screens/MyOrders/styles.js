@@ -197,11 +197,6 @@ export default StyleSheet.create({
     fontSize: fonts.size.p,
   },
 
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   popup: {
     backgroundColor: 'white',
     borderRadius: 10,

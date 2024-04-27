@@ -66,7 +66,7 @@ export default function MyOrders({navigation}) {
               renderItem={({item}) => (
                 <OrderedItem
                   _id={item._id}
-                  status={item.status}
+                  status={item.orderStatus?.status}
                   price={item.total}
                   title={item.items[0]?.title}
                   photo={item.items[0]?.photo}
@@ -117,6 +117,7 @@ const OrderedItem = ({
         comment,
         rating,
         id: productId,
+        timestamp: new Date(),
       });
       ToastAndroid.show('Review Submitted', ToastAndroid.SHORT);
       setShowReviewModal(false);
@@ -133,45 +134,48 @@ const OrderedItem = ({
   return (
     <Pressable style={styles.menuItem} onPress={onPress}>
       <View style={styles.menuIconContainer}>
-        <Image
-          source={photo ? {uri: photo} : ProductPlaceholder}
-          width={120}
-          height={80}
-          style={{borderRadius: 10, width: 120, height: 80}}
-        />
+        <TouchableOpacity onPress={() => setOrderModal(true)}>
+          <Image
+            source={photo ? {uri: photo} : ProductPlaceholder}
+            width={120}
+            height={80}
+            style={{borderRadius: 10, width: 120, height: 80}}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.menuTextContainer}>
         <TouchableOpacity onPress={() => setOrderModal(true)}>
           <Text style={styles.menuItemText}>{title || 'Unlisted Product'}</Text>
+        
+          <Text style={styles.menuItemText}>${price}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text
+              style={[
+                styles.menuItemText,
+                {color: status === 'cancelled' ? colors.error : 'green'},
+              ]}>
+              {status?.toUpperCase()?.replace('_', ' ')}
+            </Text>
+            {status === 'delivered' && (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setShowReviewModal(true)}>
+                {isSubmiting ? (
+                  <ActivityIndicator size="large" color={colors.theme._300} />
+                ) : (
+                  <Text style={styles.buttonText}>
+                    {alreadyReviewed ? 'Reviewed' : 'Review'}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            )}
+          </View>
         </TouchableOpacity>
-        <Text style={styles.menuItemText}>${price}</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Text
-            style={[
-              styles.menuItemText,
-              {color: status === 'cancelled' ? colors.error : 'green'},
-            ]}>
-            {status?.toUpperCase()?.replace('_', ' ')}
-          </Text>
-          {status === 'delivered' && (
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => setShowReviewModal(true)}>
-              {isSubmiting ? (
-                <ActivityIndicator size="large" color={colors.theme._300} />
-              ) : (
-                <Text style={styles.buttonText}>
-                  {alreadyReviewed ? 'Reviewed' : 'Review'}
-                </Text>
-              )}
-            </TouchableOpacity>
-          )}
-        </View>
       </View>
       <ReviewModal
         open={showReviewModal}
@@ -234,6 +238,9 @@ const ReviewModal = ({
               <Text style={styles.modalSubHeading}>
                 How was your experience with the product?
               </Text>
+              <Text style={styles.modalSubHeading}>
+                {review?.timestamp}
+              </Text>
               <TextInput
                 style={styles.reviewInput}
                 multiline
@@ -287,8 +294,7 @@ const ReviewModal = ({
 };
 
 const OrderDetailModal = ({onClose = () => {}, open = false, item}) => {
-  console.log('item', item);
-  const { customer, date, items, quantity, status, total } = item;
+  const { customer, date, items, quantity, orderStatus, total } = item;
   return (
     <Modal animationType="slide" transparent={true} visible={open}>
       <Pressable style={styles.modalContainer} onPress={onClose}>
@@ -314,7 +320,8 @@ const OrderDetailModal = ({onClose = () => {}, open = false, item}) => {
               <Text style={styles.label}>Billing Address:</Text>
               <Text>{customer.billingAddress}</Text>
               <Text style={styles.label}>Status:</Text>
-              <Text>{status}</Text>
+              <Text>{orderStatus?.status}</Text>
+              <Text>{new Date(orderStatus.timestamp).toLocaleString()}</Text>
               <Text style={styles.label}>Total:</Text>
               <Text>${total}</Text>
               <View style={styles.buttonStyle}>
