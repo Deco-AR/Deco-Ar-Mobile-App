@@ -14,10 +14,12 @@ import PropTypes from "prop-types";
 
 const EmptyScene = (props) => {
   const { type, uri, mtlUri } = props.sceneNavigator.viroAppProps || {};
-  const [position, setPosition] = React.useState([0, 0, -1]);
+  const [position, setPosition] = React.useState(
+    type === "3DPreview" ? [0, -0.5, -3] : [0, 0, -1]
+  );
   const [Rotation, setRotation] = React.useState([0, 0, 0]);
   const [Scale, setScale] = React.useState(
-    type === "3DPreview" ? [0.5, 0.5, 0.5] : [0.85, 1, 1]
+    type === "3DPreview" ? [0.3, 0.3, 0.3] : [0.85, 1, 1]
   );
 
   const onObjectDrag = (dragToPos) => {
@@ -41,7 +43,7 @@ const EmptyScene = (props) => {
   if (type === "3DPreview") {
     ViroMaterials.createMaterials({
       mtl: {
-        diffuseTexture: { uri: mtlUri },
+        diffuseTexture: require("../../assets/plant/PUSHILIN_plant.png"),
       },
     });
   }
@@ -72,7 +74,8 @@ const EmptyScene = (props) => {
         <>
           <ViroAmbientLight color="#ffffff" />
           <Viro3DObject
-            source={{ uri: uri }}
+            // source={{ uri }}
+            source={require("../../assets/plant/PUSHILIN_plant.obj")}
             position={position}
             scale={Scale}
             type="OBJ"
