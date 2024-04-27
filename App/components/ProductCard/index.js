@@ -21,6 +21,7 @@ export default function ProductCard({
   description,
   _id,
   delivery,
+  mtlUri=null
 }) {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
@@ -65,6 +66,7 @@ export default function ProductCard({
           description,
           _id,
           delivery,
+          mtlUri
         })
       }>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
