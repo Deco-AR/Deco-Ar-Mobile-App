@@ -196,4 +196,40 @@ export default StyleSheet.create({
     fontFamily: fonts.type.medium,
     fontSize: fonts.size.p,
   },
+
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  popup: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    width: '80%',
+    alignSelf: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  label: {
+    marginTop: 10,
+    fontWeight: 'bold',
+    textTransform:"capitalize"
+  },
+  itemContainer: {
+    flexDirection: 'column',
+    alignItems: 'start',
+  },
+  itemImage: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+  },
+  buttonStyle:{
+    marginTop: 10
+  }
 });
