@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
 /**
@@ -70,12 +71,12 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
-
-    namespace "com.decoar"
+    namespace "com.virostarterkit"
     defaultConfig {
-        applicationId "com.decoar"
+        applicationId "com.virostarterkit"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -106,19 +107,18 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:flipper-integration")
+
+    // ========================================================================
+    // https://viro-community.readme.io/docs/installation-instructions#2-in-your-androidappbuildgradle-add-the-following-lines-to-the-dependencies-section
     implementation project(':gvr_common')
     implementation project(':arcore_client')
     implementation project(path: ':react_viro')
     implementation project(path: ':viro_renderer')
-    implementation 'com.google.android.exoplayer:exoplayer:2.13.3'
-    implementation 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'
-
-    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
-    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.squareup.okhttp3', module:'okhttp'
-    }
-
-    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
+    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+    implementation 'com.google.protobuf.nano:protobuf-javanano:3.1.0'
+    // ========================================================================
+    
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

@@ -18,10 +18,7 @@ import {CartIcon, CategoryIcon, HomeIcon, ProfileIcon} from '../assets/images';
 import {SvgXml} from 'react-native-svg';
 import ProfileDetail from '../screens/ProfileDetail';
 import ProductDetails from '../screens/ProductDetails';
-import ARPreview from '../screens/ARPreview';
 import ARSetup from '../screens/ARSetup';
-import ARPreviewSmall from '../screens/ARPreview/ARPreviewSmall';
-import ARPreviewMedium from '../screens/ARPreview/ARPreviewMedium';
 import Pay from '../screens/Pay';
 import MyOrders from '../screens/MyOrders';
 import MyFavourites from '../screens/MyFavourites';
@@ -101,9 +98,6 @@ function HomeNestedNavigation() {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
       <Stack.Screen name="ARSetup" component={ARSetup} />
-      <Stack.Screen name="ARPreviewSmall" component={ARPreviewSmall} />
-      <Stack.Screen name="ARPreviewMedium" component={ARPreviewMedium} />
-      <Stack.Screen name="ARPreviewLarge" component={ARPreview} />
     </Stack.Navigator>
   );
 }

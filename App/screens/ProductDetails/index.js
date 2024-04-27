@@ -72,6 +72,7 @@ export default function ProductDetails({route, navigation}) {
             onPress={() =>
               navigation.navigate('ARSetup', {
                 uri: data?.photo,
+                mtlUri: data?.mtlUri || null,
               })
             }
             style={{
