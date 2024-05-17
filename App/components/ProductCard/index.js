@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Pressable,
@@ -6,22 +6,23 @@ import {
   TouchableOpacity,
   View,
   ToastAndroid,
-} from 'react-native';
-import {LoveIcon, ProductPlaceholder} from '../../assets/images';
-import {SvgXml} from 'react-native-svg';
-import {colors, fonts} from '../../theme';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import localStorage from '../../utils/localStorage';
+} from "react-native";
+import { LoveIcon, ProductPlaceholder } from "../../assets/images";
+import { SvgXml } from "react-native-svg";
+import { colors, fonts } from "../../theme";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import localStorage from "../../utils/localStorage";
 
 export default function ProductCard({
   photo,
+  thumbnail,
   title,
   price,
   unit,
   description,
   _id,
   delivery,
-  mtlUri=null
+  mtlUri = null,
 }) {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
@@ -30,35 +31,36 @@ export default function ProductCard({
 
   const handleAddToFavourite = () => {
     setIsFavourite(!isFavourite);
-    let favourites = JSON.parse(localStorage.getString('favourites') || '[]');
+    let favourites = JSON.parse(localStorage.getString("favourites") || "[]");
 
     let filteredFavourites = isFavourite
-      ? favourites.filter(item => item?._id !== _id)
-      : [...favourites, {photo, title, price, _id}];
+      ? favourites.filter((item) => item?._id !== _id)
+      : [...favourites, { photo, title, price, _id }];
 
-    localStorage.set('favourites', JSON.stringify(filteredFavourites));
+    localStorage.set("favourites", JSON.stringify(filteredFavourites));
 
     ToastAndroid.show(
-      isFavourite ? 'Removed from favourites' : 'Added to favourites',
-      ToastAndroid.SHORT,
+      isFavourite ? "Removed from favourites" : "Added to favourites",
+      ToastAndroid.SHORT
     );
   };
 
   useEffect(() => {
     if (isFocused) {
       setIsFavourite(
-        JSON.parse(localStorage.getString('favourites') || '[]').some(
-          item => item?._id === _id,
-        ),
+        JSON.parse(localStorage.getString("favourites") || "[]").some(
+          (item) => item?._id === _id
+        )
       );
     }
-  } , [isFocused]);
+  }, [isFocused]);
 
   return (
     <Pressable
-      style={{width: 150}}
+      style={{ width: 150 }}
       onPress={() =>
-        navigation.navigate('ProductDetails', {
+        navigation.navigate("ProductDetails", {
+          thumbnail,
           photo,
           title,
           price,
@@ -66,31 +68,37 @@ export default function ProductCard({
           description,
           _id,
           delivery,
-          mtlUri
+          mtlUri,
         })
-      }>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      }
+    >
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <TouchableOpacity
           onPress={handleAddToFavourite}
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 6,
             right: 6,
             zIndex: 1,
             width: 30,
             height: 30,
             borderRadius: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: isFavourite ? colors.error : 'transparent',
-          }}>
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: isFavourite ? colors.error : "transparent",
+          }}
+        >
           <SvgXml xml={LoveIcon} width={20} height={20} />
         </TouchableOpacity>
         <Image
-          source={photo ? {uri: photo} : ProductPlaceholder}
+          source={
+            thumbnail || photo
+              ? { uri: thumbnail || photo }
+              : ProductPlaceholder
+          }
           resizeMode="stretch"
           resizeMethod="scale"
-          style={{width: 150, height: 200}}
+          style={{ width: 150, height: 200 }}
         />
       </View>
       <Text
@@ -98,7 +106,8 @@ export default function ProductCard({
           color: colors.dark,
           fontFamily: fonts.type.medium,
           fontSize: fonts.size.h6,
-        }}>
+        }}
+      >
         {title}
       </Text>
       <Text
@@ -107,7 +116,8 @@ export default function ProductCard({
           opacity: 0.8,
           fontFamily: fonts.type.medium,
           fontSize: fonts.size.p,
-        }}>
+        }}
+      >
         {unit}
         {price}
       </Text>

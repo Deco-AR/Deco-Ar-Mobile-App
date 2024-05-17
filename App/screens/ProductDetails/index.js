@@ -48,7 +48,7 @@ export default function ProductDetails({route, navigation}) {
         </View>
         <View>
           <Image
-            source={data.photo ? {uri: data.photo} : ProductPlaceholder}
+            source={data.thumbnail || data.photo ? {uri: data.thumbnail || data.photo} : ProductPlaceholder}
             width={Dimensions.get('screen').width}
             height={300}
             style={{left: -18, top: 20}}
@@ -71,8 +71,9 @@ export default function ProductDetails({route, navigation}) {
           <Pressable
             onPress={() =>
               navigation.navigate('ARSetup', {
+                ...data,
                 uri: data?.photo,
-                mtlUri: data?.mtlUri || null,
+                mtlUri: data?.mtlUri,
               })
             }
             style={{

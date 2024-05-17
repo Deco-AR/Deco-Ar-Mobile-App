@@ -9,15 +9,18 @@ import {
   ViroText,
 } from "@viro-community/react-viro";
 import styles from "./styles";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, ToastAndroid, View } from "react-native";
 import PropTypes from "prop-types";
+import localStorage from "../../utils/localStorage";
 
 const EmptyScene = (props) => {
   const { type, uri, mtlUri } = props.sceneNavigator.viroAppProps || {};
-  const [position, setPosition] = React.useState([0, 0, -1]);
+  const [position, setPosition] = React.useState(
+    type === "3DPreview" ? [0, -0.5, -3] : [0, 0, -1]
+  );
   const [Rotation, setRotation] = React.useState([0, 0, 0]);
   const [Scale, setScale] = React.useState(
-    type === "3DPreview" ? [0.5, 0.5, 0.5] : [0.85, 1, 1]
+    type === "3DPreview" ? [0.05, 0.05, 0.05] : [0.85, 1, 1]
   );
 
   const onObjectDrag = (dragToPos) => {
@@ -41,7 +44,7 @@ const EmptyScene = (props) => {
   if (type === "3DPreview") {
     ViroMaterials.createMaterials({
       mtl: {
-        diffuseTexture: { uri: mtlUri },
+        diffuseTexture: require("../../assets/plant/PUSHILIN_plant.png"),
       },
     });
   }
@@ -72,14 +75,15 @@ const EmptyScene = (props) => {
         <>
           <ViroAmbientLight color="#ffffff" />
           <Viro3DObject
-            source={{ uri: uri }}
+            // source={{ uri }}
+            source={require("../../assets/plant/PUSHILIN_plant.obj")}
             position={position}
             scale={Scale}
             type="OBJ"
             rotation={Rotation}
             onDrag={onObjectDrag}
             onPinch={onObjectPinch}
-            onRotate={onObjectRotation}
+            // onRotate={onObjectRotation}
             materials={["mtl"]}
           />
         </>
@@ -93,6 +97,10 @@ function ARSetup({ navigation, route }) {
 
   const [type, setType] = React.useState("setup");
 
+  const showToast = (text) => {
+    ToastAndroid.show(text, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+  };
+
   const handleClick = () => {
     if (type === "setup" && uri) {
       if (uri?.endsWith(".jpg") || uri?.endsWith(".png")) {
@@ -105,6 +113,18 @@ function ARSetup({ navigation, route }) {
     }
   };
 
+  const handleAddToCart = () => {
+    let cart = JSON.parse(localStorage.getString("cart") || "[]");
+    let cartItem = {
+      ...route.params,
+      quantity: 1,
+      selectedSize: "s",
+    };
+    cart?.push(cartItem);
+    localStorage.set("cart", JSON.stringify(cart));
+    showToast("Item added to cart");
+  };
+
   return (
     <View style={styles.container}>
       <ViroARSceneNavigator
@@ -115,13 +135,27 @@ function ARSetup({ navigation, route }) {
         viroAppProps={{ uri, type, mtlUri }}
         style={styles.f1}
       />
-      <Pressable style={styles.previewButton} onPress={handleClick}>
-        <View>
-          <Text style={styles.previewButtonText}>
-            {type === "setup" ? "Preview" : "Go Back"}
-          </Text>
+      {type === "setup" && (
+        <Pressable style={styles.previewButton} onPress={handleClick}>
+          <View>
+            <Text style={styles.previewButtonText}>Preview</Text>
+          </View>
+        </Pressable>
+      )}
+      {type !== "setup" && (
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Pressable style={styles.addToCartButton} onPress={handleClick}>
+            <View>
+              <Text style={styles.previewButtonText}>Go Back</Text>
+            </View>
+          </Pressable>
+          <Pressable style={styles.addToCartButton} onPress={handleAddToCart}>
+            <View>
+              <Text style={styles.previewButtonText}>Add to Cart</Text>
+            </View>
+          </Pressable>
         </View>
-      </Pressable>
+      )}
     </View>
   );
 }
