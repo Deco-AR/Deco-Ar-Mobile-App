@@ -177,6 +177,7 @@ export default function Cart({navigation}) {
 const CartItem = ({
   _id,
   photo,
+  thumbnail,
   title,
   quantity,
   price,
@@ -188,10 +189,10 @@ const CartItem = ({
     <Pressable style={styles.menuItem} onPress={onPress}>
       <View style={styles.menuIconContainer}>
         <Image
-          source={photo ? {uri: photo} : ProductPlaceholder}
+          source={thumbnail ? {uri: thumbnail} : ProductPlaceholder}
           width={120}
           height={80}
-          style={{borderRadius: 10}}
+          style={{borderRadius: 10, width: 120, height: 80}}
         />
       </View>
       <View style={styles.menuTextContainer}>

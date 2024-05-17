@@ -1,10 +1,10 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  f1: {flex: 1},
+  f1: { flex: 1 },
   helloWorldTextStyle: {
     fontFamily: 'Arial',
     fontSize: 30,
@@ -18,6 +18,15 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 80,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addToCartButton: {
+    bottom: 0,
+    height: 80,
+
+    width: Dimensions.get('screen').width / 2,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',

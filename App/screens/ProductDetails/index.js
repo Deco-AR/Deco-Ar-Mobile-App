@@ -71,6 +71,7 @@ export default function ProductDetails({route, navigation}) {
           <Pressable
             onPress={() =>
               navigation.navigate('ARSetup', {
+                ...data,
                 uri: data?.photo,
                 mtlUri: data?.mtlUri,
               })
