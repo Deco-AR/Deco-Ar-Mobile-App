@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "95530850519",
+    "firebase_url": "https://social-auth-43a8b.firebaseio.com",
+    "project_id": "social-auth-43a8b",
+    "storage_bucket": "social-auth-43a8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95530850519:android:d514255cd03bacd9553892",
+        "android_client_info": {
+          "package_name": "com.decoar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95530850519-33m3l4l30ngb3kgn2k171he4thbor5u1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.decoar",
+            "certificate_hash": "692341d4301f591ddfb3ff472e72c0496a574045"
+          }
+        },
+        {
+          "client_id": "95530850519-cok1sjnnfiilpaa3hsbqbbd66n3pdrru.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADy0vrwQSxH_5WqM4bQQikhY838PdeUGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95530850519-cok1sjnnfiilpaa3hsbqbbd66n3pdrru.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
