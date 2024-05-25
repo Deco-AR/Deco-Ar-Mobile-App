@@ -78,16 +78,16 @@ export default function ProfileDetail({ navigation }) {
       <View style={styles.topContainer}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={styles.brandName}>DECO-AR</Text>
-          <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" />
+          {/* <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" /> */}
         </View>
         <SvgXml xml={ProfileVector} width="100%" height="100%" />
       </View>
       <View style={styles.bottomContainer}>
         <ScrollView>
-          <View style={styles.profilePicContainer}>
+          {/* <View style={styles.profilePicContainer}>
             <Image source={UserPlaceholder} width={85} height={85} />
             <Text style={styles.containerHeading}>Upload Image</Text>
-          </View>
+          </View> */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Name:</Text>
             <TextInput
@@ -102,6 +102,8 @@ export default function ProfileDetail({ navigation }) {
               style={styles.input}
               value={formData.email}
               onChangeText={text => setFormData({ ...formData, email: text })}
+              aria-disabled
+              editable={false}
             />
           </View>
           <View style={styles.inputGroup}>

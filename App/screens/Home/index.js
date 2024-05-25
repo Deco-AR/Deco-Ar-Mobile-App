@@ -6,6 +6,7 @@ import {
   Pressable,
   ActivityIndicator,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import {ProfilePicPlaceholder, SearchIcon} from '../../assets/images';
@@ -14,10 +15,9 @@ import ProductCard from '../../components/ProductCard';
 import {getAllListedProducts} from '../../apis/product';
 
 export default function Profile({navigation}) {
-  const [selectedFilter, setSelectedFilter] = useState('trending');
+  const [selectedFilter, setSelectedFilter] = useState('all');
   const [productList, setProductList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   // const fetchProducts = async () => {
   //   try {
@@ -33,17 +33,8 @@ export default function Profile({navigation}) {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      let response = await getAllListedProducts();
-
-      // Filter products based on search query only if there is a search query
-      const filteredProducts =
-        searchQuery !== ''
-          ? response.filter(item =>
-              item.title.toLowerCase().includes(searchQuery.toLowerCase()),
-            )
-          : response;
-
-      setProductList(filteredProducts || []);
+      let response = await getAllListedProducts(selectedFilter);
+      setProductList(response);
     } catch (error) {
       // Handle error
     } finally {
@@ -53,87 +44,112 @@ export default function Profile({navigation}) {
 
   useEffect(() => {
     fetchProducts();
-  }, [searchQuery]);
+  }, [selectedFilter]);
 
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.headerContainer}>
           <Text style={styles.brandName}>DECO-AR</Text>
-          <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" />
+          {/* <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" /> */}
         </View>
         <View style={styles.taglineContainer}>
           <Text style={styles.tagline1}>
             Behind Every Attractive Wall there's a Story.
           </Text>
-          <Text style={styles.tagline2}>Make YOUR'S NOW.</Text>
-        </View>
-        <View style={styles.searchContainer}>
-          <SvgXml
-            xml={SearchIcon}
-            width="26"
-            height="26"
-            style={styles.searchIcon}
-          />
-          <TextInput
-            placeholder="Search"
-            style={styles.searchInput}
-            value={searchQuery}
-            onChangeText={text => setSearchQuery(text)}
-          />
         </View>
         <View style={styles.filtersContainer}>
-          <Pressable
-            onPress={() => setSelectedFilter('trending')}
-            style={[
-              styles.filter,
-              selectedFilter === 'trending'
-                ? styles.selectedFilterBg
-                : styles.filterBg,
-            ]}>
-            <Text
+          <ScrollView
+            scrollEnabled
+            showsVerticalScrollIndicator={false}
+            horizontal={true}
+          > 
+            <Pressable
+              onPress={() => setSelectedFilter('all')}
               style={[
-                selectedFilter === 'trending'
-                  ? styles.selectedFilterText
-                  : styles.filterText,
-              ]}>
-              Trending Now
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => setSelectedFilter('all')}
-            style={[
-              styles.filter,
-              selectedFilter === 'all'
-                ? styles.selectedFilterBg
-                : styles.filterBg,
-            ]}>
-            <Text
-              style={[
+                styles.filter,
                 selectedFilter === 'all'
-                  ? styles.selectedFilterText
-                  : styles.filterText,
+                  ? styles.selectedFilterBg
+                  : styles.filterBg,
               ]}>
-              All
-            </Text>
-          </Pressable>
-          <Pressable
-            onPress={() => setSelectedFilter('new')}
-            style={[
-              styles.filter,
-              selectedFilter === 'new'
-                ? styles.selectedFilterBg
-                : styles.filterBg,
-            ]}>
-            <Text
+              <Text
+                style={[
+                  selectedFilter === 'all'
+                    ? styles.selectedFilterText
+                    : styles.filterText,
+                ]}>
+                All
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setSelectedFilter('Posters')}
               style={[
-                selectedFilter === 'new'
-                  ? styles.selectedFilterText
-                  : styles.filterText,
+                styles.filter,
+                selectedFilter === 'Posters'
+                  ? styles.selectedFilterBg
+                  : styles.filterBg,
               ]}>
-              New
-            </Text>
-          </Pressable>
+              <Text
+                style={[
+                  selectedFilter === 'Posters'
+                    ? styles.selectedFilterText
+                    : styles.filterText,
+                ]}>
+                Posters
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setSelectedFilter('Home')}
+              style={[
+                styles.filter,
+                selectedFilter === 'Home'
+                  ? styles.selectedFilterBg
+                  : styles.filterBg,
+              ]}>
+              <Text
+                style={[
+                  selectedFilter === 'Home'
+                    ? styles.selectedFilterText
+                    : styles.filterText,
+                ]}>
+                Home Decor
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setSelectedFilter('Quotes')}
+              style={[
+                styles.filter,
+                selectedFilter === 'Quotes'
+                  ? styles.selectedFilterBg
+                  : styles.filterBg,
+              ]}>
+              <Text
+                style={[
+                  selectedFilter === 'Quotes'
+                    ? styles.selectedFilterText
+                    : styles.filterText,
+                ]}>
+                Quotes and Calligraphy
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setSelectedFilter('Plants')}
+              style={[
+                styles.filter,
+                selectedFilter === 'Plants'
+                  ? styles.selectedFilterBg
+                  : styles.filterBg,
+              ]}>
+              <Text
+                style={[
+                  selectedFilter === 'Plants'
+                    ? styles.selectedFilterText
+                    : styles.filterText,
+                ]}>
+                Plants and Nature
+              </Text>
+            </Pressable>
+          </ScrollView>
         </View>
       </View>
       <View style={styles.bottomContainer}>
@@ -143,7 +159,13 @@ export default function Profile({navigation}) {
           </View>
         )}
         <ScrollView scrollEnabled showsVerticalScrollIndicator={false}>
-          <View style={{flexDirection: 'row', gap: 20, flexWrap: 'wrap'}}>
+          <View style={{
+              flexDirection: 'row',
+              gap: 20, 
+              flexWrap: 'wrap',
+              width: Dimensions.get('window').width * 1,
+              marginBottom: 10
+            }}>
             {productList.map(item => (
               <ProductCard key={item.id} {...item} />
             ))}

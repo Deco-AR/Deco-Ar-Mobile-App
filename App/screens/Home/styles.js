@@ -24,12 +24,12 @@ export default StyleSheet.create({
   },
   bottomContainer: {
     backgroundColor: colors.theme._100,
-    paddingHorizontal: 40,
-    paddingTop: 40,
+    paddingHorizontal: 20,
+    paddingTop: 30,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.57,
+    height: Dimensions.get('window').height * 0.68,
     position: 'absolute',
     bottom: 0,
     alignItems: 'center',
@@ -102,6 +102,7 @@ export default StyleSheet.create({
     fontSize: fonts.size.h5,
     fontFamily: fonts.type.regular,
     color: colors.dark,
+    marginTop:5
   },
   tagline2: {
     fontSize: fonts.size.h4,
@@ -165,6 +166,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginHorizontal: 2
   },
   filterText: {
     fontSize: fonts.size.label,

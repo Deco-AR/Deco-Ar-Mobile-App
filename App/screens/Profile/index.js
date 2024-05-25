@@ -59,7 +59,7 @@ export default function Profile({navigation}) {
               icon={LoveIcon}
               onPress={() => navigation.navigate('MyFavourites')}
             />
-            <MenuItem text={'FAQs'} icon={FaqIcon} />
+            {/* <MenuItem text={'FAQs'} icon={FaqIcon} /> */}
           </View>
           <TouchableOpacity
             style={[styles.button, styles.signInButton]}
