@@ -24,6 +24,7 @@ import {
   statusCodes,
   isErrorWithCode,
 } from "@react-native-google-signin/google-signin";
+import { generatFCMToken } from "../../utils/FCMToken";
 
 GoogleSignin.configure({
   webClientId:
@@ -57,8 +58,8 @@ export default function SignIn({ navigation }) {
     try {
       setLoading(true);
       if (formValidation()) {
-        let res = await login(formData.email, formData.password);
-        console.log(res);
+        let deviceToken = await generatFCMToken();
+        let res = await login(formData.email, formData.password, deviceToken);
         localStorage.set("user", JSON.stringify(res));
         navigation.navigate("HomeScreens");
       }
