@@ -23,14 +23,17 @@ export default StyleSheet.create({
     gap: 12,
   },
   bottomContainer: {
-    backgroundColor: colors.theme._100,
-    padding: 40,
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
-    width: Dimensions.get('window').width,
     height: Dimensions.get('window').height * 0.50,
     position: 'absolute',
     bottom: 0,
+  },
+  scrollBottom: {
+    backgroundColor: colors.theme._100,
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    width: Dimensions.get('window').width,
+    padding: 40,
+    
   },
   containerHeading: {
     fontSize: fonts.size.h5,

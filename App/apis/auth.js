@@ -1,8 +1,8 @@
 import api from '.';
 import localStorage from '../utils/localStorage';
 
-export const login = async (email, password) => {
-  const response = await api.post('/user/login', {email, password});
+export const login = async (email, password, deviceToken) => {
+  const response = await api.post('/user/login', {email, password, deviceToken});
   return response.data;
 };
 

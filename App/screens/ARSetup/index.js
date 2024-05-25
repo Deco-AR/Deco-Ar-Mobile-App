@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Viro3DObject,
   ViroARScene,
@@ -124,6 +124,18 @@ function ARSetup({ navigation, route }) {
     localStorage.set("cart", JSON.stringify(cart));
     showToast("Item added to cart");
   };
+
+  useEffect(() => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none",
+      },
+    });
+    return () =>
+      navigation.getParent()?.setOptions({
+        tabBarStyle: undefined,
+      });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
