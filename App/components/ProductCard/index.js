@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   ToastAndroid,
+  Dimensions,
 } from "react-native";
 import { LoveIcon, ProductPlaceholder } from "../../assets/images";
 import { SvgXml } from "react-native-svg";
@@ -56,71 +57,80 @@ export default function ProductCard({
   }, [isFocused]);
 
   return (
-    <Pressable
-      style={{ width: 150 }}
-      onPress={() =>
-        navigation.navigate("ProductDetails", {
-          thumbnail,
-          photo,
-          title,
-          price,
-          unit,
-          description,
-          _id,
-          delivery,
-          mtlUri,
-        })
-      }
-    >
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity
-          onPress={handleAddToFavourite}
-          style={{
-            position: "absolute",
-            top: 6,
-            right: 6,
-            zIndex: 1,
-            width: 30,
-            height: 30,
-            borderRadius: 15,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: isFavourite ? colors.error : "transparent",
-          }}
-        >
-          <SvgXml xml={LoveIcon} width={20} height={20} />
-        </TouchableOpacity>
-        <Image
-          source={
-            thumbnail || photo
-              ? { uri: thumbnail || photo }
-              : ProductPlaceholder
-          }
-          resizeMode="stretch"
-          resizeMethod="scale"
-          style={{ width: 150, height: 200 }}
-        />
-      </View>
-      <Text
-        style={{
-          color: colors.dark,
-          fontFamily: fonts.type.medium,
-          fontSize: fonts.size.h6,
-        }}
+    <View style={{
+      width: Dimensions.get('window').width * 0.4,
+      overflow: "hidden"
+    }}>
+      <Pressable
+        onPress={() =>
+          navigation.navigate("ProductDetails", {
+            thumbnail,
+            photo,
+            title,
+            price,
+            unit,
+            description,
+            _id,
+            delivery,
+            mtlUri,
+          })
+        }
       >
-        {title}
-      </Text>
-      <Text
-        style={{
-          color: colors.dark,
-          opacity: 0.8,
-          fontFamily: fonts.type.medium,
-          fontSize: fonts.size.p,
-        }}
-      >
-        {unit}
-        {price}
-      </Text>
-    </Pressable>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <TouchableOpacity
+            onPress={handleAddToFavourite}
+            style={{
+              position: "absolute",
+              top: 6,
+              right: 6,
+              zIndex: 1,
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: isFavourite ? colors.error : "transparent",
+            }}
+          >
+            <SvgXml xml={LoveIcon} width={20} height={20} />
+          </TouchableOpacity>
+          <Image
+            source={
+              thumbnail || photo
+                ? { uri: thumbnail || photo }
+                : ProductPlaceholder
+            }
+            resizeMode="stretch"
+            resizeMethod="scale"
+            style={{ width: '100%', height: Dimensions.get('window').height * 0.25,borderRadius: 10, }}
+          />
+        </View>
+        <View style={{
+          padding: 7
+        }}>
+          <Text
+            style={{
+              color: colors.dark,
+              fontFamily: fonts.type.medium,
+              fontSize: fonts.size.p,
+            }}
+          >
+            {title}
+          </Text>
+          <Text
+            style={{
+              color: colors.dark,
+              opacity: 0.8,
+              fontFamily: fonts.type.medium,
+              fontSize: fonts.size.p,
+              marginTop: 3
+            }}
+          >
+            {unit}
+            {price}
+          </Text>
+        </View>
+      </Pressable>
+    </View>
   );
 }
