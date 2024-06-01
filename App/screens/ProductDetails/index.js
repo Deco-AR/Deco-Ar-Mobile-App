@@ -58,7 +58,6 @@ export default function ProductDetails({ route, navigation }) {
       <View style={styles.topContainer}>
         <View style={styles.headerContainer}>
           <Text style={styles.brandName}>DECO-AR</Text>
-          <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" />
         </View>
         <View>
           <Image

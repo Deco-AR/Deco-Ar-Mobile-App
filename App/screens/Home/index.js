@@ -164,7 +164,7 @@ export default function Profile({navigation}) {
               gap: 20, 
               flexWrap: 'wrap',
               width: Dimensions.get('window').width * 1,
-              marginBottom: 10
+              marginBottom: 10,
             }}>
             {productList.map(item => (
               <ProductCard key={item.id} {...item} />

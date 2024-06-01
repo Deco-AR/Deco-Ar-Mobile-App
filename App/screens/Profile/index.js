@@ -31,7 +31,6 @@ export default function Profile({navigation}) {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.brandName}>DECO-AR</Text>
-        <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" />
       </View>
       <View style={styles.bottomContainer}>
         <ScrollView>

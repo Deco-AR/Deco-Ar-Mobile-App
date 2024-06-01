@@ -147,7 +147,6 @@ export default function Pay({ navigation, route }) {
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.brandName}>DECO-AR</Text>
-        <SvgXml xml={ProfilePicPlaceholder} width="44" height="44" />
       </View>
       <View style={styles.bottomContainer}>
         <Text style={styles.containerHeading}>Delivery Address</Text>

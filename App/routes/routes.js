@@ -62,18 +62,18 @@ function HomeNavigation() {
         }}
       />
       <Tab.Screen
-        name="Category"
-        component={Category}
-        options={{
-          tabBarIcon: ({focused}) => BottomTabsIcon(CategoryIcon, focused),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
         name="Cart"
         component={CartNavigation}
         options={{
           tabBarIcon: ({focused}) => BottomTabsIcon(CartIcon, focused),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="MyOrders"
+        component={MyOrders}
+        options={{
+          tabBarIcon: ({focused}) => BottomTabsIcon(CategoryIcon, focused),
           headerShown: false,
         }}
       />
