@@ -98,11 +98,12 @@ export default StyleSheet.create({
     color: colors.dark,
   },
   tagline1: {
-    width: Dimensions.get('window').width * 0.8,
-    fontSize: fonts.size.h5,
+    width: Dimensions.get('window').width * 0.9,
+    fontSize: fonts.size.h6,
     fontFamily: fonts.type.regular,
     color: colors.dark,
-    marginTop:5
+    marginTop:5,
+    marginBottom: 5
   },
   tagline2: {
     fontSize: fonts.size.h4,
